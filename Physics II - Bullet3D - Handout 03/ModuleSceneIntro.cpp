@@ -49,11 +49,13 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
 			//TODO 3: Create a "new" sphere, and add it to the "primitives" DynArray
-
+			Sphere* s = new Sphere(0.5);  
+			primitives.PushBack(s);
+			
 			//TODO 9: Push ModuleSceneIntro to the sphere collision listeners
 		}
 	}
-
+	
 
 	//TODO 3: Nothing to do here. But it's good to know where all primitives are being updated
 	for (uint n = 0; n < primitives.Count(); n++)

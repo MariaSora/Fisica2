@@ -19,12 +19,15 @@ PhysBody3D::~PhysBody3D()
 {
 	//TODO 2: And delete them!
 	//Make sure there's actually something to delete, check before deleting
-
+	delete colShape;
+	delete motionState;
 }
 
 void PhysBody3D::InitBody(Sphere* primitive, float mass)
 {
 	//TODO 1: Store all "new" created values
+	
+
 	assert(HasBody() == false);
 	parentPrimitive = primitive;
 
@@ -58,6 +61,7 @@ void PhysBody3D::GetTransform(float* matrix) const
 	if (HasBody() == false)
 		return;
 	//TODO 5: Set the Physical Body transform into "matrix"
+
 }
 
 // ---------------------------------------------------------
@@ -67,6 +71,7 @@ void PhysBody3D::SetTransform(const float* matrix) const
 		return;
 
 	//TODO 5: Set the Physical Body transform to equal "matrix"
+
 }
 
 // ---------------------------------------------------------
