@@ -37,12 +37,14 @@ public:
 private:
 	void SetBody(btCollisionShape* shape, Primitive* parent, float mass);
 
-	btRigidBody* body;
+	//btRigidBody* body;
 	btCollisionShape* colShape;
 	btDefaultMotionState* motionState;
 public:
 	Primitive* parentPrimitive;
 	p2DynArray<Module*> collision_listeners;
+	btRigidBody* body = nullptr;
+
 };
 
 #endif // __PhysBody3D_H__

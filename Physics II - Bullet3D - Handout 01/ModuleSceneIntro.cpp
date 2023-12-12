@@ -52,6 +52,24 @@ update_status ModuleSceneIntro::Update()
 	s.SetPos(0,0,0);
 	s.Render();
 
+	Cube c(1, 1, 1); 
+	c.SetRotation(10, (1, 1, 1));
+	c.SetPos(2, 0, 0);
+	c.Render();
+	c.wire = true;
+
+	Cylinder cl(0.5, 2);
+	cl.SetRotation(10, (-1, -1, -1));
+	cl.SetPos(-2, 0, 0);
+	cl.Render();
+
+	Line l((0,0,0), (5,5,0), 0);
+	//l.SetRotation(10, (-1, -1, -1));
+	//l.SetPos(-2, 0, 0);
+	l.axis = true;
+	l.Render();
+
+
 	return UPDATE_CONTINUE;
 }
 

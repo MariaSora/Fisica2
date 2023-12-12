@@ -171,6 +171,35 @@ void ModulePhysics3D::RemoveBodyFromWorld(btRigidBody * body)
 	world->removeRigidBody(body);
 }
 
+void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB)
+{
+	btTypedConstraint* p2p = new btPoint2PointConstraint( 
+		*(bodyA.body),
+		*(bodyB.body),
+		btVector3(anchorA.x, anchorA.y, anchorA.z), 
+		btVector3(anchorB.x, anchorB.y, anchorB.z)); 
+	world->addConstraint(p2p);
+	constraints.add(p2p);
+	p2p->setDbgDrawSize(2.0f);
+
+	delete p2p; 
+}
+
+void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisA, const vec3& axisB, bool disable_collision)
+{
+	btHingeConstraint* hinge = new btHingeConstraint(
+		*(bodyA.body),
+		*(bodyB.body),
+		btVector3(anchorA.x, anchorA.y, anchorA.z),
+		btVector3(anchorB.x, anchorB.y, anchorB.z),
+		btVector3(axisA.x, axisA.y, axisA.z),
+		btVector3(axisB.x, axisB.y, axisB.z));
+
+	world->addConstraint(hinge, disable_collision);
+	constraints.add(hinge);
+	hinge->setDbgDrawSize(2.0f);
+}
+
 // =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {
