@@ -181,8 +181,6 @@ void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, con
 	world->addConstraint(p2p);
 	constraints.add(p2p);
 	p2p->setDbgDrawSize(2.0f);
-
-	delete p2p; 
 }
 
 void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisA, const vec3& axisB, bool disable_collision)

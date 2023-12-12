@@ -34,7 +34,11 @@ bool ModuleSceneIntro::Start()
 		s->SetPos(XPos, 10.f, 2.5f);
 
 		//TODO 2: Link all the spheres with your P2P constraints
-
+		PhysBody3D bodyA = primitives[n]->body;
+		PhysBody3D bodyB = primitives[n + 1]->body;
+		vec3 anchorA(0.f, 0.f, 0.f);
+		vec3 anchorB(BallDistance, 0.f, 0.f);
+		App->physics->AddConstraintP2P(bodyA, bodyB, anchorA, anchorB);
 		XPos += Size + Size + SizeIncrement + BallDistance;
 		Size += SizeIncrement;
 	}
