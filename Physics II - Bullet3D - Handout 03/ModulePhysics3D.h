@@ -27,6 +27,11 @@ public:
 
 	void AddBodyToWorld(btRigidBody* body);
 
+	//PhysBody3D* AddBody(const Sphere& sphere, float mass = 1.0f);
+	//PhysBody3D* AddBody(const Cube& cube, float mass = 1.0f, bool is_sensor = false);
+	//PhysBody3D* AddBody(const Cylinder& cylinder, float mass = 1.0f);
+
+
 private:
 	btDefaultCollisionConfiguration*	collision_conf;
 	btCollisionDispatcher*				dispatcher;
@@ -34,6 +39,11 @@ private:
 	btSequentialImpulseConstraintSolver* solver;
 	btDiscreteDynamicsWorld*			world;
 	DebugDrawer*						debug_draw;
+
+	//p2List<btCollisionShape*> shapes;
+	//p2List<PhysBody3D*> bodies;
+	//p2List<btDefaultMotionState*> motions;
+	//p2List<btTypedConstraint*> constraints;
 };
 
 class DebugDrawer : public btIDebugDraw

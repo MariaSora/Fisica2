@@ -33,6 +33,9 @@ public:
 	//TODO 4: Add a PhysBody to the primitive
 	PhysBody3D* physbody;
 
+	void AddCollisionListener(Module* listener);
+
+
 protected:
 	virtual void InnerRender() const;
 	PrimitiveTypes type;

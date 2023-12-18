@@ -61,7 +61,7 @@ void PhysBody3D::GetTransform(float* matrix) const
 	if (HasBody() == false)
 		return;
 	//TODO 5: Set the Physical Body transform into "matrix"
-
+	body->getWorldTransform().getOpenGLMatrix(matrix);
 }
 
 // ---------------------------------------------------------
@@ -71,6 +71,10 @@ void PhysBody3D::SetTransform(const float* matrix) const
 		return;
 
 	//TODO 5: Set the Physical Body transform to equal "matrix"
+	btTransform trans;
+	trans.setFromOpenGLMatrix(matrix);
+	body->setWorldTransform(trans); 
+	body->activate();
 
 }
 
@@ -81,4 +85,9 @@ void PhysBody3D::SetPos(float x, float y, float z)
 		return;
 
 	//TODO 5: Set the Physical Body position to x, y, z. Make sure not to change the rotation!
+
+	btTransform trans = body->getWorldTransform();
+	trans.setOrigin(btVector3(x, y, z));
+	body->setWorldTransform(trans); 
+	body->activate(); 
 }

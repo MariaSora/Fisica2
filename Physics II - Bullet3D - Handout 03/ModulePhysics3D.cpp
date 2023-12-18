@@ -82,6 +82,28 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 	// - If we have contacts, get both PhysBody3D from userpointers
 	// - Make sure both PhysBodies exist!
 	// - Call "OnCollision" function on all listeners from both bodies
+	for (int n = 0; n < world->getDispatcher()->getNumManifolds(); n++)
+	{
+		btPersistentManifold* manifold = world->getDispatcher()->getManifoldByIndexInternal(n);
+		if (manifold->getNumContacts() > 0)
+		{
+			PhysBody3D* body1 = (PhysBody3D*)manifold->getBody0()->getUserPointer();
+			PhysBody3D* body2 = (PhysBody3D*)manifold->getBody1()->getUserPointer();
+
+			if (body1 != nullptr && body2 != nullptr)
+			{
+				for (uint n = 0; n < body1->collision_listeners.Count(); n++)
+				{
+					body1->collision_listeners[n]->OnCollision(body1, body2);
+				}
+
+				for (uint n = 0; n < body2->collision_listeners.Count(); n++)
+				{
+					body2->collision_listeners[n]->OnCollision(body2, body1);
+				}
+			}
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -91,6 +113,16 @@ update_status ModulePhysics3D::Update(float dt)
 {
 	if(App->debug == true)
 		world->debugDrawWorld();
+
+	//if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	//{
+	//	// TODO 7: Create a Solid Sphere when pressing 1 on camera position
+	//	Sphere s(1);
+	//	s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	//	float force = 30.0f;
+
+	//	//AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force));
+	//}
 
 	return UPDATE_CONTINUE;
 }
@@ -158,3 +190,87 @@ int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
 }
+
+//PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
+//{
+//	btCollisionShape* colShape = new btSphereShape(sphere.radius);
+//	shapes.add(colShape);
+//
+//	btTransform startTransform;
+//	startTransform.setFromOpenGLMatrix(&sphere.transform);
+//
+//	btVector3 localInertia(0, 0, 0);
+//	if (mass != 0.f)
+//		colShape->calculateLocalInertia(mass, localInertia);
+//
+//	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+//	motions.add(myMotionState);
+//	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+//
+//	btRigidBody* body = new btRigidBody(rbInfo);
+//	PhysBody3D* pbody = new PhysBody3D(body);
+//
+//	body->setUserPointer(pbody);
+//	world->addRigidBody(body);
+//	bodies.add(pbody);
+//
+//	return pbody;
+//}
+
+
+// ---------------------------------------------------------
+//PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass, bool is_sensor)
+//{
+//	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
+//	shapes.add(colShape);
+//
+//	btTransform startTransform;
+//	startTransform.setFromOpenGLMatrix(&cube.transform);
+//
+//	btVector3 localInertia(0, 0, 0);
+//	if (mass != 0.f)
+//		colShape->calculateLocalInertia(mass, localInertia);
+//
+//	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+//	motions.add(myMotionState);
+//	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+//
+//	btRigidBody* body = new btRigidBody(rbInfo);
+//	PhysBody3D* pbody = new PhysBody3D(body);
+//
+//	// Collision without physics callbacks
+//	if (is_sensor) body->setCollisionFlags(btCollisionObject::CF_NO_CONTACT_RESPONSE);
+//
+//	body->setUserPointer(pbody);
+//	world->addRigidBody(body);
+//	bodies.add(pbody);
+//
+//	return pbody;
+//}
+//
+//// ---------------------------------------------------------
+//PhysBody3D* ModulePhysics3D::AddBody(const Cylinder& cylinder, float mass)
+//{
+//	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height * 0.5f, cylinder.radius, 0.0f));
+//	shapes.add(colShape);
+//
+//	btTransform startTransform;
+//	startTransform.setFromOpenGLMatrix(&cylinder.transform);
+//
+//	btVector3 localInertia(0, 0, 0);
+//	if (mass != 0.f)
+//		colShape->calculateLocalInertia(mass, localInertia);
+//
+//	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+//	motions.add(myMotionState);
+//	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+//
+//	btRigidBody* body = new btRigidBody(rbInfo);
+//	PhysBody3D* pbody = new PhysBody3D(body);
+//
+//	body->setUserPointer(pbody);
+//	world->addRigidBody(body);
+//	bodies.add(pbody);
+//
+//	return pbody;
+//}

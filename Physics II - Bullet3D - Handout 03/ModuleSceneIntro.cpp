@@ -53,6 +53,9 @@ update_status ModuleSceneIntro::Update(float dt)
 			primitives.PushBack(s);
 			
 			//TODO 9: Push ModuleSceneIntro to the sphere collision listeners
+			//s->AddCollisionListener(this);
+			//physbody->collision_listener
+			
 		}
 	}
 	
@@ -78,3 +81,13 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 }
 
 //TODO 9: And change the color of the colliding bodies, so we can visualize it working!
+
+void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+{
+	Color color = Color((float)(std::rand() % 255) / 255.f, (float)(std::rand() % 255) / 255.f, (float)(std::rand() % 255) / 255.f);
+
+	body1->parentPrimitive->color = color;
+	body2->parentPrimitive->color = color;
+
+}
+
