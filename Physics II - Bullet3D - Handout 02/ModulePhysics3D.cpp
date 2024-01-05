@@ -98,9 +98,6 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
-	Cube c(5, 5, 5);
-	c.axis;
-	c.Render();
 
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
