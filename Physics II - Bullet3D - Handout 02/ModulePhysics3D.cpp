@@ -55,18 +55,32 @@ bool ModulePhysics3D::Start()
 	world = new btDiscreteDynamicsWorld(dispatcher, broad_phase, solver, collision_conf);
 	//TODO 4: Uncomment and link the debug Drawer with our newly created Physics world
 	world->setDebugDrawer(debug_draw);
+	world->setGravity(GRAVITY);
 
 	{
 		// TODO 6: Create a big rectangle as ground
 		// Big rectangle as ground
-		btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+		//btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+		////btCollisionShape* colShape = new btBoxShape(btVector3(200.0f, 2.0f, 200.0f));
 
-		btDefaultMotionState* myMotionState = new btDefaultMotionState();
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
+		//mat4x4 glMatrix = IdentityMatrix;
+		//glMatrix.translate(0.f, -2.f, 0.f);
+		//btTransform startTransform;
+		//startTransform.setFromOpenGLMatrix(&glMatrix);
 
-		btRigidBody* body = new btRigidBody(rbInfo);
-		world->addRigidBody(body);
-		
+
+		//btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform); 
+		//btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape); 
+
+		//btRigidBody* body = new btRigidBody(rbInfo); 
+		//world->addRigidBody(body);
+
+		btMotionState* motionState = new btDefaultMotionState();
+		btBoxShape* shape = new btBoxShape(btVector3(200.0f, 0.1f, 200.0f));
+		btRigidBody::btRigidBodyConstructionInfo rigidBodyInfo(/*mass*/0.0f, motionState, shape);
+		btRigidBody* rigidBody = new btRigidBody(rigidBodyInfo);
+		world->addRigidBody(rigidBody);
+
 	}
 
 	return true;
@@ -84,6 +98,10 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
+	Cube c(5, 5, 5);
+	c.axis;
+	c.Render();
+
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 
@@ -97,10 +115,26 @@ update_status ModulePhysics3D::Update(float dt)
 			// TODO 7: Create a Solid Sphere when pressing 1 on camera position
 			Sphere s(1);
 			s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+			float mass = 1.0f;
 			float force = 30.0f;
 			
+			PhysBody3D* sphereBody = AddBody(s, mass); 
+			sphereBody->SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z); 
 
-			AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force));
+			//AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force)); 
+			sphereBody->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force)); 
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+		{
+			Cube c(1,1,1);
+			c.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+			float mass = 1.0f;
+			float force = 30.0f;
+
+			PhysBody3D* cubeBody = AddBody(c, mass);
+			cubeBody->SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+			cubeBody->Push(-(App->camera->Z.x), -(App->camera->Z.y), -(App->camera->Z.z));
 		}
 	}
 

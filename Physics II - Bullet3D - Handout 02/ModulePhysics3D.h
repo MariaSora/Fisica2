@@ -6,6 +6,8 @@
 
 // TODO 1: Add Bullet common include btBulletDynamicsCommon.h
 #include "Bullet/include/btBulletDynamicsCommon.h"
+#define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
+
 
 class DebugDrawer;
 struct PhysBody3D; 
