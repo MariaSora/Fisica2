@@ -28,11 +28,12 @@ private:
 	btRigidBody* body;
 	//TODO 1: Store all "new" created valuesS
 	btCollisionShape* colShape =nullptr;
-	btDefaultMotionState* motionState;
 
 public:
 	Primitive* parentPrimitive;
 	p2DynArray<Module*> collision_listeners;
+	p2DynArray<btRigidBody*> RigidBody;
+	p2DynArray<btDefaultMotionState*> motionState; 
 };
 
 #endif // __PhysBody3D_H__

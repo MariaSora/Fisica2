@@ -19,8 +19,22 @@ PhysBody3D::~PhysBody3D()
 {
 	//TODO 2: And delete them!
 	//Make sure there's actually something to delete, check before deleting
-	delete colShape;
-	delete motionState;
+	/*delete colShape;
+	delete motionState;*/
+	for (int i = 0; i < RigidBody.Count(); i++) {
+		if (RigidBody[i] != nullptr) {
+			delete RigidBody[i];
+			RigidBody[i] = nullptr;
+		}
+	}
+	RigidBody.Clear();
+	for (int i = 0; i < motionState.Count(); i++) {
+		if (motionState[i] != nullptr) {
+			delete motionState[i];
+			motionState[i] = nullptr;
+		}
+	}
+	motionState.Clear();
 }
 
 void PhysBody3D::InitBody(Sphere* primitive, float mass)
@@ -73,9 +87,8 @@ void PhysBody3D::SetTransform(const float* matrix) const
 	//TODO 5: Set the Physical Body transform to equal "matrix"
 	btTransform trans;
 	trans.setFromOpenGLMatrix(matrix);
-	body->setWorldTransform(trans); 
+	body->setWorldTransform(trans);
 	body->activate();
-
 }
 
 // ---------------------------------------------------------

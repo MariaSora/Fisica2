@@ -54,7 +54,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			
 			//TODO 9: Push ModuleSceneIntro to the sphere collision listeners
 			//s->AddCollisionListener(this);
-			//physbody->collision_listener
+			s->physbody.collision_listeners.PushBack(this);
 			
 		}
 	}
@@ -90,4 +90,3 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	body2->parentPrimitive->color = color;
 
 }
-
