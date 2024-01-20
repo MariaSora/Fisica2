@@ -25,7 +25,7 @@ void PhysVehicle3D::Render()
 {
 	Cylinder wheel;
 
-	wheel.color = Black;
+	wheel.color = Orange;
 
 	for(int i = 0; i < vehicle->getNumWheels(); ++i)
 	{
@@ -52,11 +52,12 @@ void PhysVehicle3D::Render()
 	chassis.Render();*/
 
 	CreateCarCube(vec3(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z), { info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z }, Red).Render();
-	CreateCarCube(vec3(1.0f, 1.0, 2.0f), { 0, 0.7f,3.0f }, Red).Render();
-	CreateCarCube(vec3(1.0f, 0.8f, 2.0f), { 0.0f, 1.5f,-0.5f }, White).Render();
+	CreateCarCube(vec3(1.0f, 0.9, 2.0f), { 0, 0.7f,3.0f }, Red).Render();
+	CreateCarCube(vec3(3.0f, 0.3, 1.2f), { 0, 0.7f,4.5f }, Red).Render();
+	CreateCarCube(vec3(1.2f, 0.8f, 2.0f), { 0.0f, 1.5f,-0.5f }, White).Render();
 	CreateCarCube(vec3(0.1f, 1.0f, 0.8f), { -0.8f, 1.5f,-2.0f }, Red).Render(); 
 	CreateCarCube(vec3(0.1f, 1.0f, 0.8f), { 0.8f, 1.5f,-2.0f }, Red).Render(); 
-	CreateCarCube(vec3(0.1f, 1.0f, 0.8f), { 0.0f, 1.5f,-2.0f }, Red).Render(); 
+	CreateCarCube(vec3(3.0f, 0.1f, 0.8f), {0.0f, 2.0f,-2.0f}, Red).Render();
 }
 
 Cube PhysVehicle3D::CreateCarCube(const vec3 size, const vec3 position, const Color color)

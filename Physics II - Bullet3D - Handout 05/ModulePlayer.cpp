@@ -21,7 +21,7 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 1, 5);
+	car.chassis_size.Set(3, 1, 5);
 	car.chassis_offset.Set(0, 0.7, 0);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.88f;
