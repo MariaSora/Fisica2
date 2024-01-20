@@ -21,8 +21,8 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 2, 4);
-	car.chassis_offset.Set(0, 1.5, 0);
+	car.chassis_size.Set(2, 1, 5);
+	car.chassis_offset.Set(0, 0.7, 0);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
@@ -33,14 +33,14 @@ bool ModulePlayer::Start()
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
-	float wheel_radius = 0.6f;
+	float wheel_radius = 0.5f;
 	float wheel_width = 0.5f;
 	float suspensionRestLength = 1.2f;
 
 	// Don't change anything below this line ------------------
 
 	float half_width = car.chassis_size.x*0.5f;
-	float half_length = car.chassis_size.z*0.5f;
+	float half_length = car.chassis_size.z*0.4f;
 	
 	vec3 direction(0,-1,0);
 	vec3 axis(-1,0,0);
@@ -97,8 +97,14 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 12, 10);
+	vehicle->SetPos(0, -12, -10);
 	
+	carPos = vehicle->vehicle->getChassisWorldTransform();
+	initialCarPos = { carPos.getOrigin().getX(),carPos.getOrigin().getY(),carPos.getOrigin().getZ() };
+	
+	vehicle->GetTransform(&App->scene_intro->spawnPoint);
+
+
 	return true;
 }
 
@@ -113,29 +119,48 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
-	turn = acceleration = brake = 0.0f;
+	acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
+		if (turn < TURN_DEGREES)
+			turn += TURN_DEGREES * dt * 5;
+	}
+	else {
+		if (turn > 0)
+		{
+			turn -= TURN_DEGREES * dt * 5;
+		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		if(turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
+		if (turn > -TURN_DEGREES)
+			turn -= TURN_DEGREES * dt * 5;
+	}
+	else {
+		if (turn < 0)
+		{
+			turn += TURN_DEGREES / 100;
+		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		acceleration = -MAX_ACCELERATION;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
 		brake = BRAKE_POWER;
 	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_UP) this->vehicle->SetTransform(&App->scene_intro->spawnPoint);
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
@@ -147,8 +172,10 @@ update_status ModulePlayer::Update(float dt)
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
 
+	
 	return UPDATE_CONTINUE;
 }
+
 
 
 

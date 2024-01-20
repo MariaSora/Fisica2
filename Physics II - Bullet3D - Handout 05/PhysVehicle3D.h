@@ -2,9 +2,12 @@
 
 #include "PhysBody3D.h"
 #include "glmath.h"
+#include "Color.h"
 
 class btRaycastVehicle;
 struct PhysBody3D;
+class Cube;
+class Sphere;
 
 struct Wheel
 {
@@ -54,4 +57,5 @@ public:
 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
+	Cube CreateCarCube(const vec3, const vec3, const Color);
 };

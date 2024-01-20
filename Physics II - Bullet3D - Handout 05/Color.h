@@ -30,3 +30,6 @@ extern Color Green;
 extern Color Blue;
 extern Color Black;
 extern Color White;
+extern Color Perry;
+extern Color Orange;
+extern Color Brown;
