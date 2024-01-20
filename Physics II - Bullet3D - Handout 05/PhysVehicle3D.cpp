@@ -25,7 +25,7 @@ void PhysVehicle3D::Render()
 {
 	Cylinder wheel;
 
-	wheel.color = Orange;
+	wheel.color = Black;
 
 	for(int i = 0; i < vehicle->getNumWheels(); ++i)
 	{
@@ -38,26 +38,33 @@ void PhysVehicle3D::Render()
 		wheel.Render();
 	}
 
-	/*Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
-	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
-	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
-	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
-	offset = offset.rotate(q.getAxis(), q.getAngle());
+	CreateCarCube(vec3(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z), { info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z }, Blue).Render();
+	CreateCarCube(vec3(3.0f, 0.3, 1.0f), { 0, 0.5f,3.0f }, Blue).Render(); 
+	CreateCarCube(vec3(3.0f, 1.2, 1.5f), { 0, 1.0f,-1.7f }, Blue).Render(); 
+	CreateCarCube(vec3(3.5f, 0.2, 0.2f), { 0, 0.9f,1.5f }, Black).Render(); //Retrovisores
 
-	chassis.transform.M[12] += offset.getX();
-	chassis.transform.M[13] += offset.getY();
-	chassis.transform.M[14] += offset.getZ();
+	//Esto es como la cabina
+	CreateCarCube(vec3(1.2f, 0.8f, 2.0f), { 0.0f, 1.5f,-0.5f }, White).Render(); 
+	CreateCarCube(vec3(0.9f, 0.4f, 1.8f), { 0, 1.2f, 0 }, Blue).Render(); 
+	
+	//Parte de atras
+	CreateCarCube(vec3(0.1f, 1.0f, 0.8f), { -0.8f, 1.5f,-2.0f }, Blue).Render();  
+	CreateCarCube(vec3(0.1f, 1.0f, 0.8f), { 0.8f, 1.5f,-2.0f }, Blue).Render();  
+	CreateCarCube(vec3(3.0f, 0.1f, 0.8f), { 0.0f, 2.0f,-2.0f }, Blue).Render();
+	
+	CreateCarCube(vec3(0.5f, 0.2f, 1.0f), { 0, 0.5f, -3.0f }, Black).Render();
+	CreateCarCube(vec3(1.0f, 0.2f, 0.5f), { 0, 0.3f, -3.0f }, Black).Render(); 
+	
+	CreateCarCube(vec3(0.1f, 0.2f, 2.0f), { 1.2f, 1.2f, 0.5 }, Green).Render();
+	CreateCarCube(vec3(0.1f, 0.2f, 2.0f), { -1.2f, 1.2f, 0.5 }, Green).Render();
 
+	//Luceeees
+	CreateCarCube(vec3(0.2f, 0.2f, 0.2f), { 1.2f, 0.8f, 2.5f }, White).Render();
+	CreateCarCube(vec3(0.2f, 0.2f, 0.2f), { -1.2f, 0.8f, 2.5f }, White).Render();
+	CreateCarCube(vec3(0.2f, 0.2f, 0.2f), { 1.2f, 0.8f, -2.5f }, Red).Render();
+	CreateCarCube(vec3(0.2f, 0.2f, 0.2f), { -1.2f, 0.8f, -2.5f }, Red).Render();
 
-	chassis.Render();*/
-
-	CreateCarCube(vec3(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z), { info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z }, Red).Render();
-	CreateCarCube(vec3(1.0f, 0.9, 2.0f), { 0, 0.7f,3.0f }, Red).Render();
-	CreateCarCube(vec3(3.0f, 0.3, 1.2f), { 0, 0.7f,4.5f }, Red).Render();
-	CreateCarCube(vec3(1.2f, 0.8f, 2.0f), { 0.0f, 1.5f,-0.5f }, White).Render();
-	CreateCarCube(vec3(0.1f, 1.0f, 0.8f), { -0.8f, 1.5f,-2.0f }, Red).Render(); 
-	CreateCarCube(vec3(0.1f, 1.0f, 0.8f), { 0.8f, 1.5f,-2.0f }, Red).Render(); 
-	CreateCarCube(vec3(3.0f, 0.1f, 0.8f), {0.0f, 2.0f,-2.0f}, Red).Render();
+	
 }
 
 Cube PhysVehicle3D::CreateCarCube(const vec3 size, const vec3 position, const Color color)

@@ -7,7 +7,6 @@
 class btRaycastVehicle;
 struct PhysBody3D;
 class Cube;
-class Sphere;
 
 struct Wheel
 {
